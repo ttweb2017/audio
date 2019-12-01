@@ -39,6 +39,7 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
         children: <Widget>[
           _playerControllerWidget(),
           FutureBuilder(
+            future: _initializeVideoPlayerFuture,
             builder: (context, snapshot){
               return snapshot.connectionState == ConnectionState.done
                   ? AspectRatio(child: VideoPlayer(_videoPlayerController))
