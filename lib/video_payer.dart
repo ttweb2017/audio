@@ -43,16 +43,15 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
   Widget build(BuildContext context) {
     // TODO: Video Player implement build
     return Container(
-      height: 250.0,
+      //height: 250.0,
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(color: Color(0xFF000000)),
         )
       ),
-      padding: EdgeInsets.only(top: 25.0),
+      padding: EdgeInsets.only(top: 5.0),
       child: Column(
         children: <Widget>[
-          _playerControllerWidget(),
           FutureBuilder(
             future: _initializeVideoPlayerFuture,
             builder: (context, snapshot){
@@ -65,7 +64,8 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
                 return Center(child: CupertinoActivityIndicator());
               }
             }
-          )
+          ),
+          _playerControllerWidget(),
         ],
       ),
     );
