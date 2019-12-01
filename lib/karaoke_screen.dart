@@ -1,6 +1,10 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:video_player/video_player.dart';
+import 'package:vplayer/Karaoke.dart';
 import 'package:vplayer/camera_recorder.dart';
 import 'package:vplayer/model/song.dart';
+import 'package:vplayer/splash_screen.dart';
 import 'package:vplayer/video_payer.dart';
 
 class KaraokeScreen extends StatefulWidget {
@@ -12,12 +16,24 @@ class KaraokeScreen extends StatefulWidget {
 }
 
 class _KaraokeScreenState extends State<KaraokeScreen> {
+  VideoPlayerController _videoPlayerController;
+  List<CameraDescription> cameras;
+  Future<void> _initializeVideoPlayerFuture;
+
   Song song;
   _KaraokeScreenState(this.song);
 
   @override
   void initState() {
     // TODO: Karaoke screen implement initState
+    _videoPlayerController = VideoPlayerController.network(
+        song.fullVideoUrl
+    );
+
+    _initializeVideoPlayerFuture = _videoPlayerController.initialize();
+
+    _fetchCameras();
+
     super.initState();
   }
 
@@ -29,7 +45,21 @@ class _KaraokeScreenState extends State<KaraokeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Karaoke screen implement build
+    // TODO: implement build
+    return FutureBuilder(
+      future: _initializeVideoPlayerFuture,
+      builder: (context, snapshot){
+        if(snapshot.connectionState == ConnectionState.done){
+          return _karaokeScreenWidget();
+        }else{
+          return SplashScreen(bottomText: Karaoke.SPLASH_SCREEN_DOWNLOADING, isIndicating: true);
+        }
+      }
+    );
+  }
+
+  Widget _karaokeScreenWidget() {
+
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
           middle: Text(song.name)
@@ -49,16 +79,28 @@ class _KaraokeScreenState extends State<KaraokeScreen> {
             children: <Widget>[
               Expanded(
                 flex: 2,
-                child: KaraokeVideoPlayer(song: song)
+                child: KaraokeVideoPlayer(
+                    videoPlayerController: _videoPlayerController
+                ),
               ),
               Expanded(
                 flex: 3,
-                child: KaraokeCameraRecorder(),
+                child: KaraokeCameraRecorder(cameras: cameras),
               )
             ],
           )
         ],
       ),
     );
+  }
+
+  Future<void> _fetchCameras() async {
+    // Fetch the available cameras before initializing the karaoke recorder.
+    try {
+      WidgetsFlutterBinding.ensureInitialized();
+      cameras = await availableCameras();
+    } on CameraException catch (e) {
+      print(e.code + e.description);
+    }
   }
 }

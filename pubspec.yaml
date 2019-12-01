@@ -47,6 +47,7 @@ dev_dependencies:
 flutter:
   assets:
     - packages/shrine_images/karaoke_icon.png
+    - packages/shrine_images/karaoke_splash_screen.png
 
 
   # The following line ensures that the Material Icons font is
