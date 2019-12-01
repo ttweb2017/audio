@@ -83,17 +83,15 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
             children: <Widget>[
               Container(
                 child: Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Center(
-                    child: _videoCameraPreviewWidget(),
-                  ),
+                  padding: const EdgeInsets.all(8.0),
+                  child: _videoCameraPreviewWidget(),
                 ),
                 decoration: BoxDecoration(
                   color: Color(0xFFFFFFFF),
                   border: Border.all(
                     color: controller != null && controller.value.isRecordingVideo
-                        ? Color(0xFF00BFFF)
-                        : Color(0xFFC2C2C2),
+                        ? Color(0xFFFF0000)
+                        : Color(0xFF00BFFF),
                     width: 1.0,
                   ),
                 ),
@@ -111,6 +109,17 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
       ),
     );
   }
+
+  /*ClipRRect(
+                        borderRadius: BorderRadius.circular(4),
+                        child: Image.asset(
+                          Karaoke.APP_LOGO_ASSET_NAME,
+                          package: Karaoke.APP_LOGO_ASSET_PACKAGE,
+                          fit: BoxFit.cover,
+                          width: 300.0,
+                          height: 300.0,
+                        ),
+                      ),*/
 
   /// Display the preview from the camera (or a message if the preview is not available).
   Widget _videoCameraPreviewWidget() {
