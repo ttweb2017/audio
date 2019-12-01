@@ -35,6 +35,7 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
   Widget build(BuildContext context) {
     // TODO: Video Player implement build
     return Container(
+      height: 200.0,
       child: Stack(
         children: <Widget>[
           _playerControllerWidget(),
@@ -53,9 +54,9 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
 
   Widget _playerControllerWidget(){
     return CupertinoButton(
-      child: _videoPlayerController.value.isPlaying ? Icon(CupertinoIcons.pause) : Icon(CupertinoIcons.pause),
+      child: _videoPlayerController.value.isPlaying ? Icon(CupertinoIcons.pause) : Icon(CupertinoIcons.play_arrow),
       onPressed: (){
-        _videoPlayerController.value.isPlaying ? _videoPlayerController.play() : _videoPlayerController.pause();
+        _videoPlayerController.value.isPlaying ? _videoPlayerController.pause() : _videoPlayerController.play();
       },
     );
   }
