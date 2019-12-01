@@ -46,17 +46,19 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
         children: <Widget>[
           _playerControllerWidget(),
           FutureBuilder(
-            future: _initializeVideoPlayerFuture.then((_) {
-                // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-                setState(() {});
-              }),
+            future: _initializeVideoPlayerFuture,
             builder: (context, snapshot){
-              return snapshot.connectionState == ConnectionState.done
-                  ? AspectRatio(
+              if(snapshot.connectionState == ConnectionState.done){
+                setState(() {
+
+                });
+                return AspectRatio(
                   aspectRatio: _videoPlayerController.value.aspectRatio,
-                  child: VideoPlayer(_videoPlayerController)
-              )
-                  : Center(child: CupertinoActivityIndicator());
+                  child: VideoPlayer(_videoPlayerController),
+                );
+              }else{
+                return Center(child: CupertinoActivityIndicator());
+              }
             }
           )
         ],
