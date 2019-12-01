@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:video_player/video_player.dart';
 import 'package:vplayer/Karaoke.dart';
+import 'package:vplayer/chewie_item.dart';
 import 'package:vplayer/model/song.dart';
 
 class KaraokeVideoPlayer extends StatefulWidget {
@@ -20,11 +21,9 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
 
   @override
   void initState() {
-    // TODO: Video Player implement initState
     _videoPlayerController = VideoPlayerController.network(
       Karaoke.FULL_VIDEO_URL
     );
-    print("video url: " + Karaoke.FULL_VIDEO_URL);
 
     // initialize the controller and store the future for later use
     _initializeVideoPlayerFuture = _videoPlayerController.initialize();
@@ -43,14 +42,15 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
   Widget build(BuildContext context) {
     // TODO: Video Player implement build
     return Container(
-      //height: 250.0,
+      height: 250.0,
       decoration: BoxDecoration(
         border: Border(
+          top: BorderSide(color: Color(0xFF000000)),
           bottom: BorderSide(color: Color(0xFF000000)),
         )
       ),
-      padding: EdgeInsets.only(top: 5.0),
-      child: Column(
+      margin: EdgeInsets.only(top: 55.0),
+      child: Stack(
         children: <Widget>[
           FutureBuilder(
             future: _initializeVideoPlayerFuture,
@@ -65,7 +65,13 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
               }
             }
           ),
-          _playerControllerWidget(),
+          Positioned.fill(
+            left: -45.0,
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child:  _playerControllerWidget(),
+            ),
+          )
         ],
       ),
     );
@@ -73,14 +79,40 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
 
   Widget _playerControllerWidget(){
     return CupertinoButton(
-      child: _videoPlayerController.value.isPlaying
-          ? Icon(CupertinoIcons.pause)
-          : Icon(CupertinoIcons.play_arrow),
+      child: _playerControlWidgetView(),
+      color: Color(0x000000),
       onPressed: (){
-        _videoPlayerController.value.isPlaying
-            ? _videoPlayerController.pause()
-            : _videoPlayerController.play();
+        setState(() {
+          if(_videoPlayerController.value.isPlaying){
+            _videoPlayerController.pause();
+          }else{
+            _videoPlayerController.play();
+          }
+        });
       },
+    );
+  }
+
+  Widget _playerControlWidgetView(){
+    return Container(
+      height: 50,
+      width: 50,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30.0),
+          border: Border.all(
+              color: _videoPlayerController != null && _videoPlayerController.value.isPlaying
+                  ? Color(0xFF00BFFF)
+                  : Color(0xFFFFFFFF)
+          ),
+          color: _videoPlayerController != null && _videoPlayerController.value.isPlaying
+              ? Color(0xFFFF0000)
+              : Color(0xFF00BFFF)
+      ),
+      child: Center(
+        child: _videoPlayerController != null && _videoPlayerController.value.isPlaying
+            ? Icon(CupertinoIcons.pause, size: 30.0, color: Color(0xFF00BFFF))
+            : Icon(CupertinoIcons.play_arrow, size: 30.0, color: Color(0xFFFFFFFF)),
+      ),
     );
   }
 

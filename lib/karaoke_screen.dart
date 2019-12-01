@@ -40,18 +40,19 @@ class _KaraokeScreenState extends State<KaraokeScreen> {
         children: <Widget>[
           Container(
             decoration: BoxDecoration(
-              color: Color(0xFFFFFF)
-            )
+              color: Color(0xFFFFFFFF)
+            ),
+            padding: EdgeInsets.only(top: 5.0),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Expanded(
-                flex: 1,
+                flex: 2,
                 child: KaraokeVideoPlayer(song: song)
               ),
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: KaraokeCameraRecorder(),
               )
             ],
