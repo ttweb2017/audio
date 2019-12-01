@@ -38,8 +38,8 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
     return Container(
       height: 200.0,
       decoration: BoxDecoration(
-        border: Border.all(
-          color: Color(0xFF000000)
+        border: Border(
+          bottom: BorderSide(width: 1.0, color: Color(0xFF000000)),
         )
       ),
       child: Stack(
