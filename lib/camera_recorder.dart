@@ -97,7 +97,7 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
                 ),
               ),
               Positioned.fill(
-                top: height - 460.0,
+                top: height - 450.0,
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child:  _recordControlWidget(),
@@ -112,12 +112,10 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
 
   /// Display the preview from the camera (or a message if the preview is not available).
   Widget _videoCameraPreviewWidget() {
-    return ClipRRect(
-      child: AspectRatio(
+    return AspectRatio(
           aspectRatio: 0.91,//controller.value.aspectRatio,
           child: CameraPreview(controller)
-      )
-    );
+      );
     /*return AspectRatio(
         aspectRatio: 0.91,//controller.value.aspectRatio,
         child: CameraPreview(controller)
