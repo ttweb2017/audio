@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:vplayer/Karaoke.dart';
+import 'package:vplayer/song_tab.dart';
 
 class KaraokePage extends StatefulWidget {
   KaraokePage({Key key, this.title}) : super(key: key);
@@ -32,14 +33,14 @@ class _KaraokePageState extends State<KaraokePage> {
           case 0:
             returnValue = CupertinoTabView(builder: (context) {
               return CupertinoPageScaffold(
-                  child: KaraokePage(title: Karaoke.MAIN_PAGE)
+                  child: SongListTab()
               );
             });
             break;
           case 1:
             returnValue = CupertinoTabView(builder: (context) {
               return CupertinoPageScaffold(
-                  child: KaraokePage(title: Karaoke.MAIN_PAGE)
+                  child: SongListTab()
               );
             });
             break;
