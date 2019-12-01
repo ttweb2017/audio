@@ -26,7 +26,10 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
     );
 
     // initialize the controller and store the future for later use
-    _initializeVideoPlayerFuture = _videoPlayerController.initialize();
+    _initializeVideoPlayerFuture = _videoPlayerController.initialize().then((_) {
+      setState(() {});
+    });
+
     super.initState();
   }
 
@@ -45,10 +48,12 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
       //height: 300.0,
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(color: Color(0xFF00BFFF)),
+          bottom: BorderSide(color: _videoPlayerController.value.isPlaying
+              ? Color(0xFF00BFFF)
+              : Color(0xFFFF0000)),
         )
       ),
-      margin: EdgeInsets.only(top: 68.0),
+      margin: EdgeInsets.only(top: 65.0),
       child: Stack(
         children: <Widget>[
           FutureBuilder(
