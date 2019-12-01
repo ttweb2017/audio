@@ -1,15 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:video_player/video_player.dart';
 import 'package:vplayer/Karaoke.dart';
+import 'package:vplayer/model/song.dart';
 
 class KaraokeVideoPlayer extends StatefulWidget {
+  KaraokeVideoPlayer({Key key, @required this.song}) : super(key: key);
+  final Song song;
+
   @override
-  _KaraokeVideoPlayerState createState() => _KaraokeVideoPlayerState();
+  _KaraokeVideoPlayerState createState() => _KaraokeVideoPlayerState(song);
 }
 
 class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
   VideoPlayerController _videoPlayerController;
   Future<void> _initializeVideoPlayerFuture;
+  Song song;
+
+  _KaraokeVideoPlayerState(this.song);
 
   @override
   void initState() {

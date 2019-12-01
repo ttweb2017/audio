@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
 import 'package:vplayer/Karaoke.dart';
+import 'package:vplayer/karaoke_main_screen.dart';
 import 'package:vplayer/karaoke_screen.dart';
 
 void main() => runApp(MyApp());
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
 
     return CupertinoApp(
       title: Karaoke.APP_TITLE,
-      home: KaraokeScreen(
+      home: KaraokePage(
           title: Karaoke.MAIN_PAGE
       ),
     );

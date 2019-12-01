@@ -1,18 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:vplayer/camera_recorder.dart';
+import 'package:vplayer/model/song.dart';
 import 'package:vplayer/video_payer.dart';
 
 class KaraokeScreen extends StatefulWidget {
-  KaraokeScreen({Key key, @required this.title}) : super(key: key);
-  final String title;
+  KaraokeScreen({Key key, @required this.song}) : super(key: key);
+  final Song song;
 
   @override
-  _KaraokeScreenState createState() => _KaraokeScreenState(title);
+  _KaraokeScreenState createState() => _KaraokeScreenState(song);
 }
 
 class _KaraokeScreenState extends State<KaraokeScreen> {
-  String title;
-  _KaraokeScreenState(this.title);
+  Song song;
+  _KaraokeScreenState(this.song);
 
   @override
   void initState() {
@@ -43,7 +44,7 @@ class _KaraokeScreenState extends State<KaraokeScreen> {
             children: <Widget>[
               Expanded(
                 flex: 1,
-                child: KaraokeVideoPlayer()
+                child: KaraokeVideoPlayer(song: song)
               ),
               Expanded(
                 flex: 3,
