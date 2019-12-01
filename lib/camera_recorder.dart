@@ -46,7 +46,7 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    onNewCameraSelected(cameras.last);
+    onNewCameraSelected(cameras.first);
   }
 
   @override
@@ -75,7 +75,6 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Camera Recorder implement build
     double height = MediaQuery.of(context).size.height;
     return Container(
       child: Column(
@@ -116,7 +115,7 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
   /// Display the preview from the camera (or a message if the preview is not available).
   Widget _videoCameraPreviewWidget() {
     return AspectRatio(
-        aspectRatio: 5 / 4,//controller.value.aspectRatio,
+        aspectRatio: 0.91,//controller.value.aspectRatio,
         child: CameraPreview(controller)
     );
   }
@@ -131,7 +130,7 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
         decoration: BoxDecoration(
             color: Color(0x40FFFFFF)
         ),
-        padding: EdgeInsets.all(2.0),
+        padding: EdgeInsets.all(8.0),
         child: CupertinoButton(
           color: Color(0x000000),
           child: _cameraControlWidget(),
@@ -172,9 +171,6 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
   String timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
 
   void showInSnackBar(String message) {
-    /*_scaffoldKey.currentState.showSnackBar(
-      SnackBar(content: Text(message))
-    );*/
     print("SnackBar message::: " + message);
   }
 
@@ -247,7 +243,6 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
     }
 
     final Directory extDir = await getApplicationDocumentsDirectory();
-    //final Directory extDir = await getExternalStorageDirectory();
     final String dirPath = '${extDir.path}' + Karaoke.SAVED_VIDEO_PATH;
     await Directory(dirPath).create(recursive: true);
     final String filePath = '$dirPath/${timestamp()}.mp4';
