@@ -17,6 +17,7 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
     _videoPlayerController = VideoPlayerController.network(
       Karaoke.FULL_VIDEO_URL
     );
+    print("video url: " + Karaoke.FULL_VIDEO_URL);
 
     // initialize the controller and store the future for later use
     _initializeVideoPlayerFuture = _videoPlayerController.initialize();
@@ -36,14 +37,25 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
     // TODO: Video Player implement build
     return Container(
       height: 200.0,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Color(0xFF000000)
+        )
+      ),
       child: Stack(
         children: <Widget>[
           _playerControllerWidget(),
           FutureBuilder(
-            future: _initializeVideoPlayerFuture,
+            future: _initializeVideoPlayerFuture.then((_) {
+                // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+                setState(() {});
+              }),
             builder: (context, snapshot){
               return snapshot.connectionState == ConnectionState.done
-                  ? AspectRatio(aspectRatio: _videoPlayerController.value.aspectRatio, child: VideoPlayer(_videoPlayerController))
+                  ? AspectRatio(
+                  aspectRatio: _videoPlayerController.value.aspectRatio,
+                  child: VideoPlayer(_videoPlayerController)
+              )
                   : Center(child: CupertinoActivityIndicator());
             }
           )
@@ -54,9 +66,15 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
 
   Widget _playerControllerWidget(){
     return CupertinoButton(
-      child: _videoPlayerController.value.isPlaying ? Icon(CupertinoIcons.pause) : Icon(CupertinoIcons.play_arrow),
+      child: _videoPlayerController.value.isPlaying
+          ? Icon(CupertinoIcons.pause)
+          : Icon(CupertinoIcons.play_arrow),
       onPressed: (){
-        _videoPlayerController.value.isPlaying ? _videoPlayerController.pause() : _videoPlayerController.play();
+        setState(() {
+          _videoPlayerController.value.isPlaying
+              ? _videoPlayerController.pause()
+              : _videoPlayerController.play();
+        });
       },
     );
   }
