@@ -62,7 +62,7 @@ class SongRowItem extends StatelessWidget {
                     ),
                     const Padding(padding: EdgeInsets.only(top: 8)),
                     Text(
-                      '${song.singer.name}',
+                      '${song.singer.fullName}',
                       style: Styles.singerRowItemPrice,
                     )
                   ],
