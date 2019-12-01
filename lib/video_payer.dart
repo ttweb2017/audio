@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:video_player/video_player.dart';
 import 'package:vplayer/Karaoke.dart';
-import 'package:vplayer/chewie_item.dart';
 import 'package:vplayer/model/song.dart';
 
 class KaraokeVideoPlayer extends StatefulWidget {
@@ -26,9 +25,7 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
     );
 
     // initialize the controller and store the future for later use
-    _initializeVideoPlayerFuture = _videoPlayerController.initialize().then((_) {
-      setState(() {});
-    });
+    _initializeVideoPlayerFuture = _videoPlayerController.initialize();
 
     super.initState();
   }
@@ -60,6 +57,9 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
             future: _initializeVideoPlayerFuture,
             builder: (context, snapshot){
               if(snapshot.connectionState == ConnectionState.done){
+                _videoPlayerController.initialize().then((_){
+                  setState(() {});
+                });
                 return AspectRatio(
                   aspectRatio: _videoPlayerController.value.aspectRatio,
                   child: VideoPlayer(_videoPlayerController),
