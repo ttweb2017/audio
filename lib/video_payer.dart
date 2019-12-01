@@ -49,9 +49,6 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
             future: _initializeVideoPlayerFuture,
             builder: (context, snapshot){
               if(snapshot.connectionState == ConnectionState.done){
-                setState(() {
-
-                });
                 return AspectRatio(
                   aspectRatio: _videoPlayerController.value.aspectRatio,
                   child: VideoPlayer(_videoPlayerController),
