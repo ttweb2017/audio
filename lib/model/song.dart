@@ -21,7 +21,7 @@ class Song {
   final String video;
 
   String get fullVideoUrl => Karaoke.FULL_VIDEO_URL;
-  String get avatarPath => Karaoke.FULL_VIDEO_URL;
+  String get avatarPath => Karaoke.SONG_AVATAR_PATH;
 
   @override
   String toString() => '$name (id=$id)';

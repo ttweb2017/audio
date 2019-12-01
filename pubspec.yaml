@@ -25,6 +25,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   camera: ^0.5.6+3
   path_provider: ^1.4.0
+  shrine_images: ^1.0.0
   gallery_saver: ^1.0.7
   intl: ^0.15.7
   provider: ^3.0.0+1
@@ -44,6 +45,9 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+  assets:
+    - packages/shrine_images/karaoke_icon.png
+
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

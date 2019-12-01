@@ -3,27 +3,27 @@ import 'package:vplayer/model/song.dart';
 
 class SongsRepository {
   static List<Song> loadSingers(Singer singer) {
-    Singer singer = new Singer(category: Category.all, id: 1, firstName: "Ed", lastName: "Sheeran", avatar: "");
+    Singer singer = new Singer(category: Category.all, id: 1, firstName: "Ed", lastName: "Sheeran", avatar: "karaoke_icon.png");
     List<Song> allSingers = <Song>[
       Song(
           id: 1,
-          video: "",
-          avatar: "",
-          name: "",
+          video: "http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4",
+          avatar: "karaoke_icon.png",
+          name: "Song 1",
           singer: singer
       ),
       Song(
           id: 2,
-          video: "",
-          avatar: "",
-          name: "",
+          video: "http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4",
+          avatar: "karaoke_icon.png",
+          name: "Song 2",
           singer: singer
       ),
       Song(
           id: 3,
-          video: "",
-          avatar: "",
-          name: "",
+          video: "http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4",
+          avatar: "karaoke_icon.png",
+          name: "Song 3",
           singer: singer
       )
     ];
