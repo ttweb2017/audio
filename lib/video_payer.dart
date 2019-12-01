@@ -43,12 +43,13 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
   Widget build(BuildContext context) {
     // TODO: Video Player implement build
     return Container(
-      height: 200.0,
+      height: 250.0,
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(color: Color(0xFF000000)),
         )
       ),
+      padding: EdgeInsets.only(top: 15.0),
       child: Stack(
         children: <Widget>[
           _playerControllerWidget(),

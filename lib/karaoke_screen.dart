@@ -51,7 +51,7 @@ class _KaraokeScreenState extends State<KaraokeScreen> {
                 child: KaraokeVideoPlayer(song: song)
               ),
               Expanded(
-                flex: 3,
+                flex: 2,
                 child: KaraokeCameraRecorder(),
               )
             ],
