@@ -42,14 +42,13 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
   Widget build(BuildContext context) {
     // TODO: Video Player implement build
     return Container(
-      height: 250.0,
+      //height: 300.0,
       decoration: BoxDecoration(
         border: Border(
-          top: BorderSide(color: Color(0xFF000000)),
-          bottom: BorderSide(color: Color(0xFF000000)),
+          bottom: BorderSide(color: Color(0xFF00BFFF)),
         )
       ),
-      margin: EdgeInsets.only(top: 55.0),
+      margin: EdgeInsets.only(top: 68.0),
       child: Stack(
         children: <Widget>[
           FutureBuilder(
@@ -66,7 +65,8 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
             }
           ),
           Positioned.fill(
-            left: -45.0,
+            left: -50.0,
+            bottom: -5.0,
             child: Align(
               alignment: Alignment.bottomLeft,
               child:  _playerControllerWidget(),
@@ -97,6 +97,18 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
     return Container(
       height: 50,
       width: 50,
+      child: Center(
+        child: _videoPlayerController != null && _videoPlayerController.value.isPlaying
+            ? Icon(CupertinoIcons.pause_solid, size: 40.0, color: Color(0xFF00BFFF))
+            : Icon(CupertinoIcons.play_arrow_solid, size: 40.0, color: Color(0xFFFF0000)),
+      ),
+    );
+  }
+
+  /*Widget _playerControlWidgetView(){
+    return Container(
+      height: 50,
+      width: 50,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30.0),
           border: Border.all(
@@ -114,6 +126,6 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
             : Icon(CupertinoIcons.play_arrow, size: 30.0, color: Color(0xFFFFFFFF)),
       ),
     );
-  }
+  }*/
 
 }
