@@ -83,7 +83,7 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
             children: <Widget>[
               Container(
                 child: Padding(
-                  padding: const EdgeInsets.all(6.0),
+                  padding: const EdgeInsets.all(5.0),
                   child: _videoCameraPreviewWidget(),
                 ),
                 decoration: BoxDecoration(
@@ -113,7 +113,7 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
   /// Display the preview from the camera (or a message if the preview is not available).
   Widget _videoCameraPreviewWidget() {
     return AspectRatio(
-          aspectRatio: 0.91,//controller.value.aspectRatio,
+          aspectRatio: 1,//controller.value.aspectRatio,
           child: CameraPreview(controller)
       );
     /*return AspectRatio(
