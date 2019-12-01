@@ -12,7 +12,7 @@ import 'package:vplayer/model/app_state_model.dart';
 void main() {
   return runApp(
       ChangeNotifierProvider<AppStateModel>(
-        builder: (context) => AppStateModel()..loadSingers(),
+        builder: (context) => AppStateModel()..loadData(),
         child: KaraokeApp(),
       )
   );
