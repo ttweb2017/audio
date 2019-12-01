@@ -28,6 +28,8 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
     _initializeVideoPlayerFuture = _videoPlayerController.initialize();
 
     super.initState();
+
+    _videoPlayerController.play();
   }
 
   @override
@@ -57,7 +59,7 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
             future: _initializeVideoPlayerFuture,
             builder: (context, snapshot){
               if(snapshot.connectionState == ConnectionState.done){
-                //_videoPlayerController.play();
+                print("vide screen");
                 return AspectRatio(
                   aspectRatio: _videoPlayerController.value.aspectRatio,
                   child: VideoPlayer(_videoPlayerController),
