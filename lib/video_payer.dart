@@ -39,7 +39,7 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
       height: 200.0,
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(width: 1.0, color: Color(0xFF000000)),
+          bottom: BorderSide(color: Color(0xFF000000)),
         )
       ),
       child: Stack(
@@ -69,11 +69,9 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
           ? Icon(CupertinoIcons.pause)
           : Icon(CupertinoIcons.play_arrow),
       onPressed: (){
-        setState(() {
-          _videoPlayerController.value.isPlaying
-              ? _videoPlayerController.pause()
-              : _videoPlayerController.play();
-        });
+        _videoPlayerController.value.isPlaying
+            ? _videoPlayerController.pause()
+            : _videoPlayerController.play();
       },
     );
   }
