@@ -31,6 +31,10 @@ class _KaraokeScreenState extends State<KaraokeScreen> {
   Widget build(BuildContext context) {
     // TODO: Karaoke screen implement build
     return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+          middle: Text(song.name)
+      ),
+      resizeToAvoidBottomInset: true,
       child: Stack(
         fit: StackFit.expand,
         children: <Widget>[
