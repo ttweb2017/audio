@@ -46,10 +46,11 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
       height: 250.0,
       decoration: BoxDecoration(
         border: Border(
+          top: BorderSide(color: Color(0xFF000000)),
           bottom: BorderSide(color: Color(0xFF000000)),
         )
       ),
-      padding: EdgeInsets.only(top: 15.0),
+      padding: EdgeInsets.only(top: 25.0),
       child: Stack(
         children: <Widget>[
           _playerControllerWidget(),
