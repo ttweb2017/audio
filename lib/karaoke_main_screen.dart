@@ -20,12 +20,23 @@ class _KaraokePageState extends State<KaraokePage> {
             icon: Icon(CupertinoIcons.music_note),
             title: Text(Karaoke.APP_TITLE),
           ),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.music_note),
+            title: Text(Karaoke.APP_TITLE),
+          ),
         ],
       ),
       tabBuilder: (context, index) {
         CupertinoTabView returnValue;
         switch (index) {
           case 0:
+            returnValue = CupertinoTabView(builder: (context) {
+              return CupertinoPageScaffold(
+                  child: KaraokePage(title: Karaoke.MAIN_PAGE)
+              );
+            });
+            break;
+          case 1:
             returnValue = CupertinoTabView(builder: (context) {
               return CupertinoPageScaffold(
                   child: KaraokePage(title: Karaoke.MAIN_PAGE)
