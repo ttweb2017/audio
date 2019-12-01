@@ -46,7 +46,7 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    onNewCameraSelected(cameras.first);
+    onNewCameraSelected(cameras.last);
   }
 
   @override
@@ -83,7 +83,7 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
             children: <Widget>[
               Container(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(6.0),
                   child: _videoCameraPreviewWidget(),
                 ),
                 decoration: BoxDecoration(
@@ -92,7 +92,7 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
                     color: controller != null && controller.value.isRecordingVideo
                         ? Color(0xFFFF0000)
                         : Color(0xFF00BFFF),
-                    width: 1.0,
+                    width: 2.0,
                   ),
                 ),
               ),
@@ -110,23 +110,18 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
     );
   }
 
-  /*ClipRRect(
-                        borderRadius: BorderRadius.circular(4),
-                        child: Image.asset(
-                          Karaoke.APP_LOGO_ASSET_NAME,
-                          package: Karaoke.APP_LOGO_ASSET_PACKAGE,
-                          fit: BoxFit.cover,
-                          width: 300.0,
-                          height: 300.0,
-                        ),
-                      ),*/
-
   /// Display the preview from the camera (or a message if the preview is not available).
   Widget _videoCameraPreviewWidget() {
-    return AspectRatio(
+    return ClipRRect(
+      child: AspectRatio(
+          aspectRatio: 0.91,//controller.value.aspectRatio,
+          child: CameraPreview(controller)
+      )
+    );
+    /*return AspectRatio(
         aspectRatio: 0.91,//controller.value.aspectRatio,
         child: CameraPreview(controller)
-    );
+    );*/
   }
 
   /// Display the control button to record videos.
