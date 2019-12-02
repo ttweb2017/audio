@@ -113,6 +113,7 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
   /// Display the preview from the camera (or a message if the preview is not available).
   Widget _videoCameraPreviewWidget() {
     double size = MediaQuery.of(context).size.width;
+    double h = controller != null ? controller.value.aspectRatio : 1;
 
     return Container(
       width: size,//controller.value.aspectRatio,
@@ -124,7 +125,7 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
             fit: BoxFit.fitWidth,
             child: Container(
               width: size,
-              height: size / controller.value.aspectRatio,
+              height: size / h,
               child: CameraPreview(controller),
             ),
           ),
