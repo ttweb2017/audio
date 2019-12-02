@@ -75,7 +75,7 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
+    //double height = MediaQuery.of(context).size.height;
     return Container(
       child: Column(
         children: <Widget>[
@@ -97,7 +97,7 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
                 ),
               ),
               Positioned.fill(
-                top: height - 450.0,
+                top: 0,
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child:  _recordControlWidget(),
