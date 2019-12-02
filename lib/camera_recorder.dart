@@ -77,34 +77,30 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
   Widget build(BuildContext context) {
     //double height = MediaQuery.of(context).size.height;
     return Container(
-      child: Column(
+      child: Stack(
         children: <Widget>[
-          Stack(
-            children: <Widget>[
-              Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: _videoCameraPreviewWidget(),
-                ),
-                decoration: BoxDecoration(
-                  color: Color(0xFFFFFFFF),
-                  border: Border.all(
-                    color: controller != null && controller.value.isRecordingVideo
-                        ? Color(0xFFFF0000)
-                        : Color(0xFF00BFFF),
-                    width: 2.0,
-                  ),
-                ),
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: _videoCameraPreviewWidget(),
+            ),
+            decoration: BoxDecoration(
+              color: Color(0xFFFFFFFF),
+              border: Border.all(
+                color: controller != null && controller.value.isRecordingVideo
+                    ? Color(0xFFFF0000)
+                    : Color(0xFF00BFFF),
+                width: 2.0,
               ),
-              Positioned.fill(
-                top: 0,
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child:  _recordControlWidget(),
-                ),
-              )
-            ],
+            ),
           ),
+          Positioned.fill(
+            top: 0,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child:  _recordControlWidget(),
+            ),
+          )
         ],
       ),
     );
@@ -137,24 +133,21 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
   /// Display the control button to record videos.
   Widget _recordControlWidget(){
     double width = MediaQuery.of(context).size.width;
-    return Center(
-      child: Container(
-        width: width,
-        height: 100,
-        decoration: BoxDecoration(
-            color: Color(0x40FFFFFF)
-        ),
-        padding: EdgeInsets.all(8.0),
-        child: CupertinoButton(
-          color: Color(0x000000),
-          child: _cameraControlWidget(),
-          pressedOpacity: 0.5,
-          onPressed: controller != null &&
-              controller.value.isInitialized &&
-              !controller.value.isRecordingVideo
-              ? onVideoRecordButtonPressed
-              : onStopButtonPressed,
-        ),
+    return Container(
+      width: width - 14,
+      decoration: BoxDecoration(
+          color: Color(0x40000000)
+      ),
+      padding: EdgeInsets.all(8.0),
+      child: CupertinoButton(
+        color: Color(0x000000),
+        child: _cameraControlWidget(),
+        pressedOpacity: 0.5,
+        onPressed: controller != null &&
+            controller.value.isInitialized &&
+            !controller.value.isRecordingVideo
+            ? onVideoRecordButtonPressed
+            : onStopButtonPressed,
       ),
     );
   }
