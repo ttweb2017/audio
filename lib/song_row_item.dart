@@ -17,18 +17,7 @@ class SongRowItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final row = GestureDetector(
-      onTap: (){
-        Navigator.of(context, rootNavigator: true).push(
-          CupertinoPageRoute<bool>(
-            fullscreenDialog: true,
-            builder: (BuildContext context) => KaraokeScreen(
-                song: song
-            ),
-          ),
-        );
-      },
-      child: SafeArea(
+    final row = SafeArea(
         top: false,
         bottom: false,
         minimum: const EdgeInsets.only(
@@ -37,61 +26,75 @@ class SongRowItem extends StatelessWidget {
           bottom: 8,
           right: 8,
         ),
-        child: Row(
-          children: <Widget>[
-            ClipRRect(
-              borderRadius: BorderRadius.circular(4),
-              child: Image.asset(
-                song.avatar,
-                package: song.avatarPackage,
-                fit: BoxFit.cover,
-                width: 56,
-                height: 56,
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      song.name,
-                      style: Styles.singerRowItemName,
-                    ),
-                    const Padding(padding: EdgeInsets.only(top: 8)),
-                    Text(
-                      '${song.singer.fullName}',
-                      style: Styles.singerRowItemPrice,
-                    )
-                  ],
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: (){
+            Navigator.of(context, rootNavigator: true).push(
+              CupertinoPageRoute<bool>(
+                fullscreenDialog: true,
+                builder: (BuildContext context) => KaraokeScreen(
+                    song: song
                 ),
               ),
-            ),
-            CupertinoButton(
-              padding: EdgeInsets.zero,
-              onPressed: () {
-                //final model = Provider.of<AppStateModel>(context);
-                //model.playSong(song.id);
-
-                Navigator.of(context, rootNavigator: true).push(
-                  CupertinoPageRoute<bool>(
-                    fullscreenDialog: true,
-                    builder: (BuildContext context) => KaraokeScreen(
-                        song: song
+            );
+          },
+          child: Container(
+            child: Row(
+              children: <Widget>[
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(4),
+                  child: Image.asset(
+                    song.avatar,
+                    package: song.avatarPackage,
+                    fit: BoxFit.cover,
+                    width: 56,
+                    height: 56,
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          song.name,
+                          style: Styles.singerRowItemName,
+                        ),
+                        const Padding(padding: EdgeInsets.only(top: 8)),
+                        Text(
+                          '${song.singer.fullName}',
+                          style: Styles.singerRowItemPrice,
+                        )
+                      ],
                     ),
                   ),
-                );
-              },
-              child: const Icon(
-                CupertinoIcons.play_arrow,
-                semanticLabel: 'Play',
-              ),
+                ),
+                CupertinoButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: () {
+                    //final model = Provider.of<AppStateModel>(context);
+                    //model.playSong(song.id);
+
+                    Navigator.of(context, rootNavigator: true).push(
+                      CupertinoPageRoute<bool>(
+                        fullscreenDialog: true,
+                        builder: (BuildContext context) => KaraokeScreen(
+                            song: song
+                        ),
+                      ),
+                    );
+                  },
+                  child: const Icon(
+                    CupertinoIcons.play_arrow,
+                    semanticLabel: 'Play',
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
-      )
     );
 
     if (lastItem) {
