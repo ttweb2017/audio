@@ -46,7 +46,7 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    onNewCameraSelected(cameras.last);
+    onNewCameraSelected(cameras.first);
   }
 
   @override
