@@ -81,7 +81,7 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
         children: <Widget>[
           Container(
             child: Padding(
-              padding: const EdgeInsets.only(right: 5.0, left: 5.0),
+              padding: const EdgeInsets.only(right: 1.0, left: 1.0),
               child: _videoCameraPreviewWidget(),
             ),
             decoration: BoxDecoration(
