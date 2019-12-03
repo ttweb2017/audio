@@ -34,9 +34,9 @@ class _KaraokeScreenState extends State<KaraokeScreen> {
     };
     _videoPlayerController = VideoPlayerController.network(
         song.fullVideoUrl
-    )..addListener(listener)..initialize();
+    )..addListener(listener);
 
-    //_initializeVideoPlayerFuture = _videoPlayerController.initialize();
+    _initializeVideoPlayerFuture = _videoPlayerController.initialize();
 
     _fetchCameras();
 
@@ -49,7 +49,7 @@ class _KaraokeScreenState extends State<KaraokeScreen> {
     super.dispose();
   }
 
-  /*@override
+  @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return FutureBuilder(
@@ -62,14 +62,6 @@ class _KaraokeScreenState extends State<KaraokeScreen> {
         }
       }
     );
-  }*/
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return _videoPlayerController.value.initialized
-        ? _karaokeScreenWidget()
-        : SplashScreen(bottomText: Karaoke.SPLASH_SCREEN_DOWNLOADING, isIndicating: true);
   }
 
   Widget _karaokeScreenWidget() {
