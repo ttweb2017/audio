@@ -90,13 +90,13 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
     return Container(
         width: size,//controller.value.aspectRatio,
         height: size,
-        decoration: BoxDecoration(
+        /*decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(color: videoPlayerController.value.isPlaying
                   ? Color(0xFF00BFFF)
                   : Color(0xFFFF0000)),
             )
-        ),
+        ),*/
         child: ClipRect(
           child: OverflowBox(
             alignment: Alignment.center,
