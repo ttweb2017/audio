@@ -62,7 +62,8 @@ class _KaraokeScreenState extends State<KaraokeScreen> {
 
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-          middle: Text(song.name)
+          middle: Text(song.name),
+        backgroundColor: Color(0xFFFFFFFF),
       ),
       resizeToAvoidBottomInset: true,
       child: Stack(
@@ -72,7 +73,7 @@ class _KaraokeScreenState extends State<KaraokeScreen> {
             decoration: BoxDecoration(
               color: Color(0xFF000000)
             ),
-            padding: EdgeInsets.only(top: 5.0),
+            //padding: EdgeInsets.only(top: 5.0),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,

@@ -31,23 +31,18 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
   Widget build(BuildContext context) {
     // TODO: Video Player implement build
     return Container(
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: videoPlayerController.value.isPlaying
-              ? Color(0xFF00BFFF)
-              : Color(0xFFFF0000)),
-        )
-      ),
-      margin: EdgeInsets.only(top: 65.0),
+      padding: EdgeInsets.only(left: 5.0, right: 5.0),
+      //margin: EdgeInsets.only(top: 5.0),
       child: Stack(
         children: <Widget>[
-          AspectRatio(
+          /*AspectRatio(
             aspectRatio: videoPlayerController.value.aspectRatio,
             child: VideoPlayer(videoPlayerController),
-          ),
+          ),*/
+          _videoCameraPreviewWidget(),
           Positioned.fill(
             left: -50.0,
-            bottom: -5.0,
+            //bottom: -5.0,
             child: Align(
               alignment: Alignment.bottomLeft,
               child:  _playerControllerWidget(),
@@ -83,6 +78,38 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
             ? Icon(CupertinoIcons.pause_solid, size: 40.0, color: Color(0xFF00BFFF))
             : Icon(CupertinoIcons.play_arrow_solid, size: 40.0, color: Color(0xFFFF0000)),
       ),
+    );
+  }
+
+  Widget _videoCameraPreviewWidget() {
+    double size = MediaQuery.of(context).size.width;
+    double h = videoPlayerController != null && videoPlayerController.value.initialized
+        ? videoPlayerController.value.aspectRatio
+        : 1;
+
+    return Container(
+        width: size,//controller.value.aspectRatio,
+        height: size,
+        decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(color: videoPlayerController.value.isPlaying
+                  ? Color(0xFF00BFFF)
+                  : Color(0xFFFF0000)),
+            )
+        ),
+        child: ClipRect(
+          child: OverflowBox(
+            alignment: Alignment.center,
+            child: FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Container(
+                width: size,
+                height: size / h,
+                child: VideoPlayer(videoPlayerController),
+              ),
+            ),
+          ),
+        )
     );
   }
 

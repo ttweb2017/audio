@@ -46,7 +46,7 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    onNewCameraSelected(cameras.last);
+    onNewCameraSelected(cameras.first);
   }
 
   @override
@@ -81,18 +81,12 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
         children: <Widget>[
           Container(
             child: Padding(
-              padding: const EdgeInsets.all(5.0),
+              padding: const EdgeInsets.only(right: 5.0, left: 5.0),
               child: _videoCameraPreviewWidget(),
             ),
             decoration: BoxDecoration(
-              color: Color(0xFFFFFFFF),
+              color: Color(0xFF000000),
               border: Border(
-                top: BorderSide(
-                  color: controller != null && controller.value.isRecordingVideo
-                      ? Color(0xFFFF0000)
-                      : Color(0xFF00BFFF),
-                  width: 2
-                ),
                 left: BorderSide(
                     color: controller != null && controller.value.isRecordingVideo
                         ? Color(0xFFFF0000)
@@ -105,13 +99,7 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
                         : Color(0xFF00BFFF),
                     width: 2
                 ),
-              ),
-              /*border: Border.all(
-                color: controller != null && controller.value.isRecordingVideo
-                    ? Color(0xFFFF0000)
-                    : Color(0xFF00BFFF),
-                width: 2.0,
-              ),*/
+              )
             ),
           ),
           Positioned.fill(
