@@ -47,6 +47,7 @@ class _KaraokeScreenState extends State<KaraokeScreen> {
   void dispose() {
     // TODO: Karaoke screen implement dispose
     _videoPlayerController.removeListener(listener);
+    _videoPlayerController.dispose();
     super.dispose();
   }
 
