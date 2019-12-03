@@ -86,12 +86,32 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
             ),
             decoration: BoxDecoration(
               color: Color(0xFFFFFFFF),
-              border: Border.all(
+              border: Border(
+                top: BorderSide(
+                  color: controller != null && controller.value.isRecordingVideo
+                      ? Color(0xFFFF0000)
+                      : Color(0xFF00BFFF),
+                  width: 2
+                ),
+                left: BorderSide(
+                    color: controller != null && controller.value.isRecordingVideo
+                        ? Color(0xFFFF0000)
+                        : Color(0xFF00BFFF),
+                    width: 2
+                ),
+                right: BorderSide(
+                    color: controller != null && controller.value.isRecordingVideo
+                        ? Color(0xFFFF0000)
+                        : Color(0xFF00BFFF),
+                    width: 2
+                ),
+              ),
+              /*border: Border.all(
                 color: controller != null && controller.value.isRecordingVideo
                     ? Color(0xFFFF0000)
                     : Color(0xFF00BFFF),
                 width: 2.0,
-              ),
+              ),*/
             ),
           ),
           Positioned.fill(

@@ -70,7 +70,7 @@ class _KaraokeScreenState extends State<KaraokeScreen> {
         children: <Widget>[
           Container(
             decoration: BoxDecoration(
-              color: Color(0xFFFFFFFF)
+              color: Color(0xFF000000)
             ),
             padding: EdgeInsets.only(top: 5.0),
           ),
