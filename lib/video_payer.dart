@@ -32,7 +32,7 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
     // TODO: Video Player implement build
     return Container(
       color: Color(0xFFFFFFFF),
-      padding: EdgeInsets.only(left: 1.0, right: 1.0),
+      padding: EdgeInsets.only(left: 0.0, right: 0.0),
       //margin: EdgeInsets.only(top: 5.0),
       child: Stack(
         children: <Widget>[

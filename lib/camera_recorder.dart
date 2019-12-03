@@ -142,11 +142,11 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
   Widget _recordControlWidget(){
     double width = MediaQuery.of(context).size.width;
     return Container(
-      width: width - 14,
+      width: width - 2,
       decoration: BoxDecoration(
           color: Color(0x40000000)
       ),
-      padding: EdgeInsets.all(8.0),
+      padding: EdgeInsets.only(left: 1.0, right: 1.0),
       child: CupertinoButton(
         color: Color(0x000000),
         child: _cameraControlWidget(),
