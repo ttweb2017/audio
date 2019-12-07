@@ -7,7 +7,6 @@ import 'package:vplayer/model/song.dart';
 import 'package:vplayer/splash_screen.dart';
 import 'package:vplayer/util/cache_manager.dart';
 import 'package:vplayer/video_payer.dart';
-import 'package:gallery_saver/gallery_saver.dart';
 
 class KaraokeScreen extends StatefulWidget {
   KaraokeScreen({Key key, @required this.song}) : super(key: key);
