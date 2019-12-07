@@ -42,7 +42,7 @@ class _KaraokeScreenState extends State<KaraokeScreen> {
       });
     };
 
-    _dowloadVideoFile(song.fullVideoUrl);
+    _downloadVideoFile(song.fullVideoUrl);
 
     _fetchCameras();
 
@@ -137,7 +137,7 @@ class _KaraokeScreenState extends State<KaraokeScreen> {
   }
 
   //download a fucking video
-  Future<void> _dowloadVideoFile(String url) async {
+  Future<void> _downloadVideoFile(String url) async {
     fetchedFile = await cacheManager.getSingleFile(url);
 
     _videoPlayerController = VideoPlayerController.file(

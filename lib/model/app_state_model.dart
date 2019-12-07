@@ -1,9 +1,12 @@
 import 'dart:math';
+import 'dart:convert';
 
 import 'package:flutter/foundation.dart' as foundation;
+import 'package:vplayer/Karaoke.dart';
 import 'package:vplayer/model/singer_repository.dart';
 import 'package:vplayer/model/song.dart';
 import 'package:vplayer/model/song_repository.dart';
+import 'package:http/http.dart' as http;
 
 import 'singer.dart';
 
@@ -157,8 +160,76 @@ class AppStateModel extends foundation.ChangeNotifier {
   Future<List<Song>> _fetchSongs() async {
     List<Song> songList = List<Song>();
 
-    songList = SongsRepository.loadSingers(_selectedSinger);
+    songList = SongsRepository.loadSongs(_selectedSinger);
 
     return songList;
+  }
+
+  //Method to get singer list from server
+  Future<List<Singer>> _fetchSingersClient() async {
+    List<Singer> singerList = List<Singer>();
+
+    try{
+      final response = await http.get(
+          Karaoke.SINGERS_URL
+      );
+
+      if (response.statusCode == 200) {
+        // If server returns an OK response, parse the JSON.
+        var singers = json.decode(response.body) as List;
+
+        singerList = singers.map((i) => Singer.fromJson(i)).toList();
+
+        singerList.forEach((singer) {
+          print("Singers: " + singer.id.toString());
+        });
+
+        print("Karaoke response: " + response.statusCode.toString());
+
+        return singerList;
+
+      } else {
+        // If that response was not OK, throw an error.
+        print("Karaoke response code: " + response.statusCode.toString());
+      }
+    }catch(e){
+      print("Could not connect to api. Check internet connectivity! Reason: " + e.toString());
+    }
+
+    return null;
+  }
+
+  //Method to get song list from server
+  Future<List<Song>> _fetchSongsClient() async {
+    List<Song> songList = List<Song>();
+
+    try{
+      final response = await http.get(
+          Karaoke.VIDEO_URL
+      );
+
+      if (response.statusCode == 200) {
+        // If server returns an OK response, parse the JSON.
+        var songs = json.decode(response.body) as List;
+
+        songList = songs.map((i) => Song.fromJson(i)).toList();
+
+        songList.forEach((singer) {
+          print("Songs: " + singer.id.toString());
+        });
+
+        print("Karaoke response: " + response.statusCode.toString());
+
+        return songList;
+
+      } else {
+        // If that response was not OK, throw an error.
+        print("Karaoke response code: " + response.statusCode.toString());
+      }
+    }catch(e){
+      print("Could not connect to api. Check internet connectivity! Reason: " + e.toString());
+    }
+
+    return null;
   }
 }

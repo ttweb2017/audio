@@ -74,9 +74,6 @@ class SongRowItem extends StatelessWidget {
                 CupertinoButton(
                   padding: EdgeInsets.zero,
                   onPressed: () {
-                    //final model = Provider.of<AppStateModel>(context);
-                    //model.playSong(song.id);
-
                     Navigator.of(context, rootNavigator: true).push(
                       CupertinoPageRoute<bool>(
                         fullscreenDialog: true,

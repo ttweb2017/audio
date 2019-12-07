@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:vplayer/Karaoke.dart';
+import 'package:vplayer/search_tab.dart';
+import 'package:vplayer/singer_list_tab.dart';
 import 'package:vplayer/song_tab.dart';
 
 class KaraokePage extends StatefulWidget {
@@ -26,12 +29,20 @@ class _KaraokePageState extends State<KaraokePage> {
       tabBar: CupertinoTabBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.music_note),
-            title: Text(Karaoke.APP_TITLE),
+            icon: Icon(CupertinoIcons.home),
+            title: Text(Karaoke.NAVIGATION_POPULAR),
           ),
           BottomNavigationBarItem(
             icon: Icon(CupertinoIcons.music_note),
-            title: Text(Karaoke.APP_TITLE),
+            title: Text(Karaoke.NAVIGATION_SONG),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.group),
+            title: Text(Karaoke.NAVIGATION_SINGER),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.search),
+            title: Text(Karaoke.NAVIGATION_SINGER),
           ),
         ],
       ),
@@ -49,6 +60,20 @@ class _KaraokePageState extends State<KaraokePage> {
             returnValue = CupertinoTabView(builder: (context) {
               return CupertinoPageScaffold(
                   child: SongListTab()
+              );
+            });
+            break;
+          case 2:
+            returnValue = CupertinoTabView(builder: (context) {
+              return CupertinoPageScaffold(
+                child: SingerListTab(),
+              );
+            });
+            break;
+          case 3:
+            returnValue = CupertinoTabView(builder: (context) {
+              return CupertinoPageScaffold(
+                child: SearchTab(),
               );
             });
             break;
