@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:vplayer/Karaoke.dart';
 import 'package:vplayer/song_tab.dart';
 
@@ -11,6 +12,13 @@ class KaraokePage extends StatefulWidget {
 }
 
 class _KaraokePageState extends State<KaraokePage> {
+  Map<PermissionGroup, PermissionStatus> permissions;
+
+  @override
+  void initState(){
+    super.initState();
+    getPermission();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,5 +56,13 @@ class _KaraokePageState extends State<KaraokePage> {
         return returnValue;
       },
     );
+  }
+
+  void getPermission() async {
+    permissions = await PermissionHandler().requestPermissions([
+      PermissionGroup.camera,
+      PermissionGroup.photos,
+      PermissionGroup.microphone,
+    ]);
   }
 }

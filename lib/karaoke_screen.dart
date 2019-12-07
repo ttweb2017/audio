@@ -5,7 +5,9 @@ import 'package:vplayer/Karaoke.dart';
 import 'package:vplayer/camera_recorder.dart';
 import 'package:vplayer/model/song.dart';
 import 'package:vplayer/splash_screen.dart';
+import 'package:vplayer/util/cache_manager.dart';
 import 'package:vplayer/video_payer.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 
 class KaraokeScreen extends StatefulWidget {
   KaraokeScreen({Key key, @required this.song}) : super(key: key);
@@ -16,10 +18,18 @@ class KaraokeScreen extends StatefulWidget {
 }
 
 class _KaraokeScreenState extends State<KaraokeScreen> {
+  CameraController _cameraController;
   VideoPlayerController _videoPlayerController;
   VoidCallback listener;
   List<CameraDescription> cameras;
   Future<void> _initializeVideoPlayerFuture;
+  bool isCameraReady = false;
+
+  var fetchedFile;
+
+  CustomCacheManager cacheManager = CustomCacheManager();
+
+  bool enableAudio = true;
 
   Song song;
   _KaraokeScreenState(this.song);
@@ -32,11 +42,8 @@ class _KaraokeScreenState extends State<KaraokeScreen> {
 
       });
     };
-    _videoPlayerController = VideoPlayerController.network(
-        song.fullVideoUrl
-    )..addListener(listener);
 
-    _initializeVideoPlayerFuture = _videoPlayerController.initialize();
+    _dowloadVideoFile(song.fullVideoUrl);
 
     _fetchCameras();
 
@@ -48,6 +55,7 @@ class _KaraokeScreenState extends State<KaraokeScreen> {
     // TODO: Karaoke screen implement dispose
     _videoPlayerController.removeListener(listener);
     _videoPlayerController.dispose();
+    isCameraReady = false;
     super.dispose();
   }
 
@@ -57,7 +65,7 @@ class _KaraokeScreenState extends State<KaraokeScreen> {
     return FutureBuilder(
       future: _initializeVideoPlayerFuture,
       builder: (context, snapshot){
-        if(snapshot.connectionState == ConnectionState.done){
+        if(snapshot.connectionState == ConnectionState.done && isCameraReady){
           return _karaokeScreenWidget();
         }else{
           return SplashScreen(bottomText: Karaoke.SPLASH_SCREEN_DOWNLOADING, isIndicating: true);
@@ -94,7 +102,9 @@ class _KaraokeScreenState extends State<KaraokeScreen> {
               ),
               Expanded(
                 flex: 3,
-                child: KaraokeCameraRecorder(cameras: cameras),
+                child: KaraokeCameraRecorder(
+                    cameraController: _cameraController
+                ),
               )
             ],
           )
@@ -108,8 +118,33 @@ class _KaraokeScreenState extends State<KaraokeScreen> {
     try {
       WidgetsFlutterBinding.ensureInitialized();
       cameras = await availableCameras();
+
+      _cameraController = CameraController(
+        cameras.last,
+        ResolutionPreset.medium,
+        enableAudio: enableAudio,
+      );
+
+      _cameraController.initialize();
+      _cameraController.prepareForVideoRecording().then((_){
+        setState(() {
+          isCameraReady = true;
+        });
+      });
+
     } on CameraException catch (e) {
       print(e.code + e.description);
     }
+  }
+
+  //download a fucking video
+  Future<void> _dowloadVideoFile(String url) async {
+    fetchedFile = await cacheManager.getSingleFile(url);
+
+    _videoPlayerController = VideoPlayerController.file(
+        fetchedFile
+    )..addListener(listener);
+
+    _initializeVideoPlayerFuture = _videoPlayerController.initialize();
   }
 }

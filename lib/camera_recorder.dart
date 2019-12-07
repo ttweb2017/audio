@@ -8,11 +8,11 @@ import 'package:path_provider/path_provider.dart';
 import 'package:vplayer/Karaoke.dart';
 
 class KaraokeCameraRecorder extends StatefulWidget {
-  KaraokeCameraRecorder({Key key, @required this.cameras}) : super(key: key);
-  final List<CameraDescription> cameras;
+  KaraokeCameraRecorder({Key key, @required this.cameraController}) : super(key: key);
+  final CameraController cameraController;
 
   @override
-  _KaraokeCameraRecorderState createState() => _KaraokeCameraRecorderState(cameras);
+  _KaraokeCameraRecorderState createState() => _KaraokeCameraRecorderState(cameraController);
 }
 
 /// Returns a suitable camera icon for [direction].
@@ -32,27 +32,25 @@ void logError(String code, String message) =>
     print('Error: $code\nError Message: $message');
 
 class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with WidgetsBindingObserver {
-  CameraController controller;
+  CameraController cameraController;
   String imagePath;
   String videoPath;
   VoidCallback videoPlayerListener;
   bool enableAudio = true;
 
-  List<CameraDescription> cameras;
-
-  _KaraokeCameraRecorderState(this.cameras);
+  _KaraokeCameraRecorderState(this.cameraController);
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    onNewCameraSelected(cameras.last);
+    onNewCameraSelected(cameraController.description);
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    if(controller.value.isRecordingVideo){
+    if(cameraController.value.isRecordingVideo){
       onStopButtonPressed();
     }
     super.dispose();
@@ -61,14 +59,14 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     // App state changed before we got the chance to initialize.
-    if (controller == null || !controller.value.isInitialized) {
+    if (cameraController == null || !cameraController.value.isInitialized) {
       return;
     }
     if (state == AppLifecycleState.inactive) {
-      controller?.dispose();
+      cameraController?.dispose();
     } else if (state == AppLifecycleState.resumed) {
-      if (controller != null) {
-        onNewCameraSelected(controller.description);
+      if (cameraController != null) {
+        onNewCameraSelected(cameraController.description);
       }
     }
   }
@@ -86,20 +84,6 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
             ),
             decoration: BoxDecoration(
               color: Color(0xFF000000),
-              /*border: Border(
-                left: BorderSide(
-                    color: controller != null && controller.value.isRecordingVideo
-                        ? Color(0xFFFF0000)
-                        : Color(0xFF00BFFF),
-                    width: 2
-                ),
-                right: BorderSide(
-                    color: controller != null && controller.value.isRecordingVideo
-                        ? Color(0xFFFF0000)
-                        : Color(0xFF00BFFF),
-                    width: 2
-                ),
-              )*/
             ),
           ),
           Positioned.fill(
@@ -117,7 +101,9 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
   /// Display the preview from the camera (or a message if the preview is not available).
   Widget _videoCameraPreviewWidget() {
     double size = MediaQuery.of(context).size.width;
-    double h = controller != null && controller.value.isInitialized ? controller.value.aspectRatio : 1;
+    double h = cameraController != null && cameraController.value.isInitialized
+        ? cameraController.value.aspectRatio
+        : 1;
 
     return Container(
       width: size,//controller.value.aspectRatio,
@@ -130,7 +116,7 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
             child: Container(
               width: size,
               height: size / h,
-              child: CameraPreview(controller),
+              child: CameraPreview(cameraController),
             ),
           ),
         ),
@@ -151,9 +137,9 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
         color: Color(0x000000),
         child: _cameraControlWidget(),
         pressedOpacity: 0.5,
-        onPressed: controller != null &&
-            controller.value.isInitialized &&
-            !controller.value.isRecordingVideo
+        onPressed: cameraController != null &&
+            cameraController.value.isInitialized &&
+            !cameraController.value.isRecordingVideo
             ? onVideoRecordButtonPressed
             : onStopButtonPressed,
       ),
@@ -167,16 +153,16 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(35.0),
           border: Border.all(
-              color: controller != null && controller.value.isRecordingVideo
+              color: cameraController != null && cameraController.value.isRecordingVideo
                   ? Color(0xFF00BFFF)
                   : Color(0xFFFFFFFF)
           ),
-          color: controller != null && controller.value.isRecordingVideo
+          color: cameraController != null && cameraController.value.isRecordingVideo
               ? Color(0xFFFF0000)
               : Color(0xFF00BFFF)
       ),
       child: Center(
-        child: controller != null && controller.value.isRecordingVideo
+        child: cameraController != null && cameraController.value.isRecordingVideo
             ? Icon(CupertinoIcons.share, size: 30.0, color: Color(0xFF00BFFF))
             : Icon(CupertinoIcons.video_camera, size: 30.0, color: Color(0xFFFFFFFF)),
       ),
@@ -190,32 +176,32 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
   }
 
   void onNewCameraSelected(CameraDescription cameraDescription) async {
-    if (controller != null) {
-      await controller.dispose();
-    }
-    controller = CameraController(
-      cameraDescription,
-      ResolutionPreset.medium,
-      enableAudio: enableAudio,
-    );
+    if (cameraController == null) {
+      //await cameraController.dispose();
+      cameraController = CameraController(
+        cameraDescription,
+        ResolutionPreset.medium,
+        enableAudio: enableAudio,
+      );
 
-    // If the controller is updated then update the UI.
-    controller.addListener(() {
-      if (mounted) setState(() {});
-      if (controller.value.hasError) {
-        showInSnackBar('Camera error ${controller.value.errorDescription}');
+      // If the controller is updated then update the UI.
+      cameraController.addListener(() {
+        if (mounted) setState(() {});
+        if (cameraController.value.hasError) {
+          showInSnackBar('Camera error ${cameraController.value.errorDescription}');
+        }
+      });
+
+      try {
+        await cameraController.initialize();
+        await cameraController.prepareForVideoRecording();
+      } on CameraException catch (e) {
+        _showCameraException(e);
       }
-    });
 
-    try {
-      await controller.initialize();
-      await controller.prepareForVideoRecording();
-    } on CameraException catch (e) {
-      _showCameraException(e);
-    }
-
-    if (mounted) {
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     }
   }
 
@@ -252,17 +238,17 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
   }
 
   Future<String> startVideoRecording() async {
-    if (!controller.value.isInitialized) {
+    if (!cameraController.value.isInitialized) {
       showInSnackBar('Error: select a camera first.');
       return null;
     }
 
-    final Directory extDir = await getApplicationDocumentsDirectory();
+    final Directory extDir = await getTemporaryDirectory();
     final String dirPath = '${extDir.path}' + Karaoke.SAVED_VIDEO_PATH;
     await Directory(dirPath).create(recursive: true);
     final String filePath = '$dirPath/${timestamp()}.mp4';
 
-    if (controller.value.isRecordingVideo) {
+    if (cameraController.value.isRecordingVideo) {
       // A recording is already started, do nothing.
       return null;
     }
@@ -270,7 +256,7 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
     try {
       print("FILE LOCATION: " + filePath);
       videoPath = filePath;
-      await controller.startVideoRecording(filePath);
+      await cameraController.startVideoRecording(filePath);
     } on CameraException catch (e) {
       _showCameraException(e);
       return null;
@@ -279,12 +265,12 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
   }
 
   Future<void> stopVideoRecording() async {
-    if (!controller.value.isRecordingVideo) {
+    if (!cameraController.value.isRecordingVideo) {
       return null;
     }
 
     try {
-      await controller.stopVideoRecording();
+      await cameraController.stopVideoRecording();
     } on CameraException catch (e) {
       _showCameraException(e);
       return null;
@@ -294,12 +280,12 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
   }
 
   Future<void> pauseVideoRecording() async {
-    if (!controller.value.isRecordingVideo) {
+    if (!cameraController.value.isRecordingVideo) {
       return null;
     }
 
     try {
-      await controller.pauseVideoRecording();
+      await cameraController.pauseVideoRecording();
     } on CameraException catch (e) {
       _showCameraException(e);
       rethrow;
@@ -307,12 +293,12 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
   }
 
   Future<void> resumeVideoRecording() async {
-    if (!controller.value.isRecordingVideo) {
+    if (!cameraController.value.isRecordingVideo) {
       return null;
     }
 
     try {
-      await controller.resumeVideoRecording();
+      await cameraController.resumeVideoRecording();
     } on CameraException catch (e) {
       _showCameraException(e);
       rethrow;
@@ -320,22 +306,22 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
   }
 
   Future<String> takePicture() async {
-    if (!controller.value.isInitialized) {
+    if (!cameraController.value.isInitialized) {
       showInSnackBar('Error: select a camera first.');
       return null;
     }
-    final Directory extDir = await getApplicationDocumentsDirectory();
+    final Directory extDir = await getTemporaryDirectory();
     final String dirPath = '${extDir.path}/Pictures/flutter_test';
     await Directory(dirPath).create(recursive: true);
     final String filePath = '$dirPath/${timestamp()}.jpg';
 
-    if (controller.value.isTakingPicture) {
+    if (cameraController.value.isTakingPicture) {
       // A capture is already pending, do nothing.
       return null;
     }
 
     try {
-      await controller.takePicture(filePath);
+      await cameraController.takePicture(filePath);
     } on CameraException catch (e) {
       _showCameraException(e);
       return null;
