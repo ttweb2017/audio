@@ -26,6 +26,10 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
 
     return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        backgroundColor: Color(0xFFFFFFFF),
+        border: null,
+      ),
       backgroundColor: Color(0xFFFFFFFF),//0x805C6BC0
       child: Stack(
         fit: StackFit.expand,

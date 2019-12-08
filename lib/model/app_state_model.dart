@@ -120,12 +120,12 @@ class AppStateModel extends foundation.ChangeNotifier {
   // Loads the list of available singers from the repo.
   void loadSingers() async {
     //_availableSingers = SingersRepository.loadSingers(Category.all);
-    _availableSingers = await _fetchSingers();
+    _availableSingers = await _fetchSingersClient();
     notifyListeners();
   }
 
   void loadSongs() async {
-    _availableSongs = await _fetchSongs();
+    _availableSongs = await _fetchSongsClient();
     notifyListeners();
   }
 

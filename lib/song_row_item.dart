@@ -43,9 +43,9 @@ class SongRowItem extends StatelessWidget {
               children: <Widget>[
                 ClipRRect(
                   borderRadius: BorderRadius.circular(4),
-                  child: Image.asset(
-                    song.avatar,
-                    package: song.avatarPackage,
+                  child: Image.network(
+                    song.avatarUrl,
+                    //package: song.avatarPackage,
                     fit: BoxFit.cover,
                     width: 56,
                     height: 56,

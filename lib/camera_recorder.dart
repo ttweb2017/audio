@@ -8,11 +8,11 @@ import 'package:path_provider/path_provider.dart';
 import 'package:vplayer/Karaoke.dart';
 
 class KaraokeCameraRecorder extends StatefulWidget {
-  KaraokeCameraRecorder({Key key, @required this.cameraController}) : super(key: key);
-  final CameraController cameraController;
+  KaraokeCameraRecorder({Key key, @required this.cameraDescription}) : super(key: key);
+  final CameraDescription cameraDescription;
 
   @override
-  _KaraokeCameraRecorderState createState() => _KaraokeCameraRecorderState(cameraController);
+  _KaraokeCameraRecorderState createState() => _KaraokeCameraRecorderState(cameraDescription);
 }
 
 /// Returns a suitable camera icon for [direction].
@@ -33,18 +33,19 @@ void logError(String code, String message) =>
 
 class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with WidgetsBindingObserver {
   CameraController cameraController;
+  CameraDescription cameraDescription;
   String imagePath;
   String videoPath;
   VoidCallback videoPlayerListener;
   bool enableAudio = true;
 
-  _KaraokeCameraRecorderState(this.cameraController);
+  _KaraokeCameraRecorderState(this.cameraDescription);
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    onNewCameraSelected(cameraController.description);
+    onNewCameraSelected(cameraDescription);
   }
 
   @override
@@ -176,32 +177,33 @@ class _KaraokeCameraRecorderState extends State<KaraokeCameraRecorder> with Widg
   }
 
   void onNewCameraSelected(CameraDescription cameraDescription) async {
-    if (cameraController == null) {
-      //await cameraController.dispose();
-      cameraController = CameraController(
-        cameraDescription,
-        ResolutionPreset.medium,
-        enableAudio: enableAudio,
-      );
+    if (cameraController != null) {
+      await cameraController.dispose();
+    }
 
-      // If the controller is updated then update the UI.
-      cameraController.addListener(() {
-        if (mounted) setState(() {});
-        if (cameraController.value.hasError) {
-          showInSnackBar('Camera error ${cameraController.value.errorDescription}');
-        }
-      });
+    cameraController = CameraController(
+      cameraDescription,
+      ResolutionPreset.medium,
+      enableAudio: enableAudio,
+    );
 
-      try {
-        await cameraController.initialize();
-        await cameraController.prepareForVideoRecording();
-      } on CameraException catch (e) {
-        _showCameraException(e);
+    // If the controller is updated then update the UI.
+    cameraController.addListener(() {
+      if (mounted) setState(() {});
+      if (cameraController.value.hasError) {
+        showInSnackBar('Camera error ${cameraController.value.errorDescription}');
       }
+    });
 
-      if (mounted) {
-        setState(() {});
-      }
+    try {
+      await cameraController.initialize();
+      await cameraController.prepareForVideoRecording();
+    } on CameraException catch (e) {
+      _showCameraException(e);
+    }
+
+    if (mounted) {
+      setState(() {});
     }
   }
 

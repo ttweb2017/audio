@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:video_player/video_player.dart';
 import 'package:vplayer/Karaoke.dart';
 import 'package:vplayer/camera_recorder.dart';
+import 'package:vplayer/karaoke_main_screen.dart';
 import 'package:vplayer/model/song.dart';
 import 'package:vplayer/splash_screen.dart';
 import 'package:vplayer/util/cache_manager.dart';
@@ -23,6 +26,7 @@ class _KaraokeScreenState extends State<KaraokeScreen> {
   List<CameraDescription> cameras;
   Future<void> _initializeVideoPlayerFuture;
   bool isCameraReady = false;
+  bool isError = false;
 
   var fetchedFile;
 
@@ -35,25 +39,30 @@ class _KaraokeScreenState extends State<KaraokeScreen> {
 
   @override
   void initState() {
-    // TODO: Karaoke screen implement initState
     listener = (){
       setState(() {
 
       });
     };
 
-    _downloadVideoFile(song.fullVideoUrl);
-
     _fetchCameras();
+
+    _downloadVideoFile(song.fullVideoUrl);
 
     super.initState();
   }
 
   @override
   void dispose() {
-    // TODO: Karaoke screen implement dispose
-    _videoPlayerController.removeListener(listener);
-    _videoPlayerController.dispose();
+    if(_videoPlayerController != null){
+      _videoPlayerController.removeListener(listener);
+      _videoPlayerController.dispose();
+    }
+
+    if(_cameraController != null){
+      _cameraController.dispose();
+    }
+
     isCameraReady = false;
     super.dispose();
   }
@@ -102,7 +111,7 @@ class _KaraokeScreenState extends State<KaraokeScreen> {
               Expanded(
                 flex: 3,
                 child: KaraokeCameraRecorder(
-                    cameraController: _cameraController
+                    cameraDescription: cameras.last,
                 ),
               )
             ],
@@ -118,17 +127,8 @@ class _KaraokeScreenState extends State<KaraokeScreen> {
       WidgetsFlutterBinding.ensureInitialized();
       cameras = await availableCameras();
 
-      _cameraController = CameraController(
-        cameras.last,
-        ResolutionPreset.medium,
-        enableAudio: enableAudio,
-      );
-
-      _cameraController.initialize();
-      _cameraController.prepareForVideoRecording().then((_){
-        setState(() {
-          isCameraReady = true;
-        });
+      setState(() {
+        isCameraReady = true;
       });
 
     } on CameraException catch (e) {
@@ -138,12 +138,42 @@ class _KaraokeScreenState extends State<KaraokeScreen> {
 
   //download a fucking video
   Future<void> _downloadVideoFile(String url) async {
-    fetchedFile = await cacheManager.getSingleFile(url);
+    await cacheManager.getSingleFile(url)
+        .then((onValue){
+          print("Loaded file::::: " + onValue.path);
+          _videoPlayerController = VideoPlayerController.file(
+              onValue
+          )..addListener(listener);
 
-    _videoPlayerController = VideoPlayerController.file(
-        fetchedFile
-    )..addListener(listener);
+          _initializeVideoPlayerFuture = _videoPlayerController.initialize();
+        })
+        .catchError((onError){
+          print("Loading file error::: " + onError.toString());
+          _videoPlayerController = null;
+          _initializeVideoPlayerFuture = null;
+        });
+  }
 
-    _initializeVideoPlayerFuture = _videoPlayerController.initialize();
+  Widget _showAlertDialog(){
+    return CupertinoAlertDialog(
+      title: new Text("Connection Error"),
+      content: new Text("Please check your internet!"),
+      actions: <Widget>[
+        CupertinoDialogAction(
+          isDefaultAction: true,
+          child: Text("OK"),
+          onPressed: (){
+            Navigator.of(context, rootNavigator: true).push(
+              CupertinoPageRoute<bool>(
+                fullscreenDialog: true,
+                builder: (BuildContext context) => KaraokePage(
+                  title: Karaoke.APP_TITLE,
+                ),
+              ),
+            );
+          },
+        )
+      ],
+    );
   }
 }

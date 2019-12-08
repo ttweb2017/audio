@@ -20,8 +20,12 @@ class Song {
   final String name;
   final String video;
 
-  String get fullVideoUrl => Karaoke.FULL_VIDEO_URL;
-  String get avatarPath => Karaoke.SONG_AVATAR_PATH;
+  String get fullFakeVideoUrl => Karaoke.FULL_FAKE_VIDEO_URL;
+  String get fullVideoUrl => Karaoke.VIDEO_PATH + '/$video';
+  String get partiallyVideo => Karaoke.PARTLY_VIDEO_URL + "/" + video;
+  String get fullStreamVideo => Karaoke.FULL_VIDEO_URL + "/" + video;
+  String get avatarPath => Karaoke.SONG_LOCAL_AVATAR_PATH;
+  String get avatarUrl => Karaoke.SONG_AVATAR_PATH + "/" + avatar;
   String get avatarPackage => Karaoke.SONG_AVATAR_PACKAGE;
 
   @override

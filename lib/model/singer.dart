@@ -36,6 +36,7 @@ class Singer {
   final int price;
 
   String get assetName => Karaoke.SINGERS_PATH + '/$avatar';
+  String get avatarUrl => Karaoke.SINGERS_PATH + '/$avatar';
   String get assetPackage => 'shrine_images';
   String get fullName => firstName + " " + lastName;
 

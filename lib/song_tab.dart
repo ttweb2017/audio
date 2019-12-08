@@ -7,13 +7,18 @@ import 'package:vplayer/song_row_item.dart';
 import 'model/app_state_model.dart';
 
 class SongListTab extends StatelessWidget {
+  SongListTab({Key key, @required this.isPopular}) : super(key: key);
+
+  final bool isPopular;
 
   @override
   Widget build(BuildContext context) {
 
     return Consumer<AppStateModel>(
       builder: (context, model, child) {
-        final songs = model.getSongs();
+        model.checkSongs();
+
+        final songs = isPopular ? model.getPopularSongs() : model.getSongs();
 
         return CustomScrollView(
           semanticChildCount: songs.length,
