@@ -19,7 +19,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -27,26 +27,26 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-	<key>NSCameraUsageDescription</key>
-	<string>Can I use the camera please?</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Can I use the mic please?</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Can I use Gallery to save videos?</string>
-	<key>NSContactsUsageDescription</key>
-	<string>Can I use Contacts?</string>
-	<key>NSCalendarsUsageDescription</key>
-	<string>Can I use Calendars?</string>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>Can I use Apple Music?</string>
-	<key>NSMotionUsageDescription</key>
-	<string>Can I use Motion?</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>Can I use Speech Recognition?</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Can I use Calendars?</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Can I use the your camera to take a video while singing karaoke?</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Can I use Contacts?</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Can I use Location?</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Can I use Location?</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Can I use the microphone to record your voice while singing karaoke?</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Can I use Motion?</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Can I use your Gallery to save a selfie videos that you recorded while singing karaoke?</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Can I use Speech Recognition?</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

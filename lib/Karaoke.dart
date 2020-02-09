@@ -1,5 +1,5 @@
 class Karaoke {
-  static const String APP_TITLE = "Vplayer";
+  static const String APP_TITLE = "Karaoke";
 
   static const String NAVIGATION_POPULAR = "Popular";
   static const String NAVIGATION_SONG = "Songs";
