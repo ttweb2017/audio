@@ -1,5 +1,5 @@
 class Karaoke {
-  static const String APP_TITLE = "Vplayer";
+  static const String APP_TITLE = "MuzTM";
 
   static const String NAVIGATION_POPULAR = "Popular";
   static const String NAVIGATION_SONG = "Songs";
@@ -18,9 +18,10 @@ class Karaoke {
   static const String SINGERS_LOCAL_PATH = "shrine_images";
   static const String SAVED_VIDEO_PATH = "/KaraokeVideos";
 
-  static const String KARAOKE_URL = "https://voicetm.com";
+  static const String KARAOKE_URL = "https://api.voicetm.com";
   static const String SINGERS_URL = KARAOKE_URL + "/api/singers";
   static const String VIDEO_URL = KARAOKE_URL + "/api/videos";
+  static const String TOP_20_URL = KARAOKE_URL + "/api/top20-videos";
   static const String FULL_VIDEO_URL = KARAOKE_URL + "/api/full-video";
   static const String PARTLY_VIDEO_URL = KARAOKE_URL + "/api/video";
   static const String SINGERS_PATH = KARAOKE_URL + "/img/singer";

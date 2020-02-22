@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:vplayer/Karaoke.dart';
-import 'package:vplayer/karaoke_screen.dart';
 import 'package:vplayer/song_row_item.dart';
 
 import 'model/app_state_model.dart';
@@ -16,7 +15,11 @@ class SongListTab extends StatelessWidget {
 
     return Consumer<AppStateModel>(
       builder: (context, model, child) {
-        model.checkSongs();
+        if(isPopular){
+          model.checkPopularSongs();
+        }else{
+          model.checkSongs();
+        }
 
         final songs = isPopular ? model.getPopularSongs() : model.getSongs();
 

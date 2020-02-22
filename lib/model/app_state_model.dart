@@ -1,11 +1,8 @@
-import 'dart:math';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart' as foundation;
 import 'package:vplayer/Karaoke.dart';
-import 'package:vplayer/model/singer_repository.dart';
 import 'package:vplayer/model/song.dart';
-import 'package:vplayer/model/song_repository.dart';
 import 'package:http/http.dart' as http;
 
 import 'singer.dart';
@@ -16,6 +13,9 @@ class AppStateModel extends foundation.ChangeNotifier {
 
   // All the available songs
   List<Song> _availableSongs;
+
+  // All the available songs
+  List<Song> _availablePopularSongs;
 
   // The currently selected category of singers.
   Category _selectedCategory = Category.all;
@@ -53,6 +53,13 @@ class AppStateModel extends foundation.ChangeNotifier {
     }
   }
 
+  // check if popular songs are loaded
+  void checkPopularSongs(){
+    if(_availablePopularSongs == null){
+      loadTop20Songs();
+    }
+  }
+
   // Checks if singers is empty
   void checkSingers(){
     if (_availableSingers == null) {
@@ -76,15 +83,17 @@ class AppStateModel extends foundation.ChangeNotifier {
   }
 
   List<Song> getPopularSongs(){
-    if (_availableSongs == null) {
+    if(_availablePopularSongs == null){
       return [];
     }
 
-    return _availableSongs.where((p) {
-      int random = new Random().nextInt(_availableSongs.length * 2);
-
-      return _availableSongs.asMap().containsKey(random);
-    }).toList();
+    if (_selectedSinger == null) {
+      return List.from(_availablePopularSongs);
+    } else {
+      return _availablePopularSongs.where((p) {
+        return p.singer == _selectedSinger;
+      }).toList();
+    }
   }
 
   // Search the singer catalog
@@ -125,16 +134,13 @@ class AppStateModel extends foundation.ChangeNotifier {
   }
 
   void loadSongs() async {
-    _availableSongs = await _fetchSongsClient();
+    _availableSongs = await _fetchSongsClient(Karaoke.VIDEO_URL);
     notifyListeners();
   }
 
-  void loadData(){
-    // Load Singers list
-    loadSingers();
-
-    // Load Songs
-    loadSongs();
+  void loadTop20Songs() async {
+    _availablePopularSongs = await _fetchSongsClient(Karaoke.TOP_20_URL);
+    notifyListeners();
   }
 
   void setCategory(Category newCategory) {
@@ -145,24 +151,6 @@ class AppStateModel extends foundation.ChangeNotifier {
   void setSinger(Singer newSinger) {
     _selectedSinger = newSinger;
     notifyListeners();
-  }
-
-  //Method to get singer list from server
-  Future<List<Singer>> _fetchSingers() async {
-    List<Singer> singerList = List<Singer>();
-
-    singerList = SingersRepository.loadSingers(_selectedCategory);
-
-    return singerList;
-  }
-
-  //Method to get song list from server
-  Future<List<Song>> _fetchSongs() async {
-    List<Song> songList = List<Song>();
-
-    songList = SongsRepository.loadSongs(_selectedSinger);
-
-    return songList;
   }
 
   //Method to get singer list from server
@@ -200,12 +188,12 @@ class AppStateModel extends foundation.ChangeNotifier {
   }
 
   //Method to get song list from server
-  Future<List<Song>> _fetchSongsClient() async {
+  Future<List<Song>> _fetchSongsClient(String url) async {
     List<Song> songList = List<Song>();
 
     try{
       final response = await http.get(
-          Karaoke.VIDEO_URL
+        url
       );
 
       if (response.statusCode == 200) {

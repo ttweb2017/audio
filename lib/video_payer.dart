@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:video_player/video_player.dart';
+import 'package:vplayer/chewie_item.dart';
 
 class KaraokeVideoPlayer extends StatefulWidget {
   KaraokeVideoPlayer({Key key, @required this.videoPlayerController}) : super(key: key);
@@ -16,20 +17,17 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
 
   @override
   void initState() {
-  // TODO: Video Player implement initState
     super.initState();
   }
 
   @override
   void dispose() {
-    // TODO: Video Player implement dispose
     super.dispose();
   }
 
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Video Player implement build
     return Container(
       color: Color(0xFFFFFFFF),
       padding: EdgeInsets.only(left: 0.0, right: 0.0),
@@ -106,7 +104,12 @@ class _KaraokeVideoPlayerState extends State<KaraokeVideoPlayer> {
               child: Container(
                 width: size,
                 height: size / h,
-                child: VideoPlayer(videoPlayerController),
+                child: ChewieItem(
+                  videoPlayerController: videoPlayerController,
+                  autoPlay: true,
+                  looping: true,
+                ),
+                // child: VideoPlayer(videoPlayerController),
               ),
             ),
           ),

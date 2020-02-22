@@ -1,8 +1,7 @@
-import 'dart:io';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:video_player/video_player.dart';
+
 import 'package:vplayer/Karaoke.dart';
 import 'package:vplayer/camera_recorder.dart';
 import 'package:vplayer/karaoke_main_screen.dart';
@@ -47,7 +46,15 @@ class _KaraokeScreenState extends State<KaraokeScreen> {
 
     _fetchCameras();
 
-    _downloadVideoFile(song.fullVideoUrl);
+    _videoPlayerController = VideoPlayerController.network(
+      song.fullVideoUrl
+    )..addListener(listener);
+
+    print("video starting::::" + song.fullVideoUrl);
+
+    _initializeVideoPlayerFuture = _videoPlayerController.initialize();
+
+    // _downloadVideoFile(song.fullVideoUrl);
 
     super.initState();
   }
@@ -69,13 +76,14 @@ class _KaraokeScreenState extends State<KaraokeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return FutureBuilder(
       future: _initializeVideoPlayerFuture,
       builder: (context, snapshot){
         if(snapshot.connectionState == ConnectionState.done && isCameraReady){
+          print("song playing:::::" + song.fullVideoUrl);
           return _karaokeScreenWidget();
         }else{
+          print("song playing::::: WAITING...");
           return SplashScreen(bottomText: Karaoke.SPLASH_SCREEN_DOWNLOADING, isIndicating: true);
         }
       }
@@ -130,6 +138,7 @@ class _KaraokeScreenState extends State<KaraokeScreen> {
       setState(() {
         isCameraReady = true;
       });
+      print("isCamer:::" + isCameraReady.toString());
 
     } on CameraException catch (e) {
       print(e.code + e.description);

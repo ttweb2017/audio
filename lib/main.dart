@@ -4,16 +4,19 @@ import 'package:provider/provider.dart';
 
 import 'package:vplayer/Karaoke.dart';
 import 'package:vplayer/karaoke_main_screen.dart';
-import 'package:vplayer/karaoke_screen.dart';
 import 'package:vplayer/model/app_state_model.dart';
+
+import 'model/app_state_model.dart';
 
 //void main() => runApp(MyApp());
 
 void main() {
   return runApp(
       ChangeNotifierProvider<AppStateModel>(
-        builder: (context) => AppStateModel()..loadData(),
         child: KaraokeApp(),
+        create: (BuildContext context) {
+          return AppStateModel()..loadTop20Songs();
+        },
       )
   );
 }

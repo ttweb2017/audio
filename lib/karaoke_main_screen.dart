@@ -40,10 +40,6 @@ class _KaraokePageState extends State<KaraokePage> {
             icon: Icon(CupertinoIcons.group),
             title: Text(Karaoke.NAVIGATION_SINGER),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.search),
-            title: Text(Karaoke.NAVIGATION_SEARCH),
-          ),
         ],
       ),
       tabBuilder: (context, index) {
@@ -59,7 +55,7 @@ class _KaraokePageState extends State<KaraokePage> {
           case 1:
             returnValue = CupertinoTabView(builder: (context) {
               return CupertinoPageScaffold(
-                  child: SongListTab(isPopular: false)
+                  child: SearchTab()
               );
             });
             break;
@@ -67,13 +63,6 @@ class _KaraokePageState extends State<KaraokePage> {
             returnValue = CupertinoTabView(builder: (context) {
               return CupertinoPageScaffold(
                 child: SingerListTab(),
-              );
-            });
-            break;
-          case 3:
-            returnValue = CupertinoTabView(builder: (context) {
-              return CupertinoPageScaffold(
-                child: SearchTab(),
               );
             });
             break;
